@@ -9,6 +9,7 @@ import pages.BrowsePage;
 import pages.MovieDataPage;
 import utils.DataManager;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 public class StepsBrowse {
@@ -23,7 +24,7 @@ public class StepsBrowse {
     }
 
     @And("I select one from the list of results")
-    public void iSelectOneFromTheListOfResults() {
+    public void iSelectOneFromTheListOfResults() throws NoSuchAlgorithmException {
         List<String> movie = browsePage.resultList();
         movieData = DataManager.getMovieInformation();
         movieData.setTitleMovie(movie.get(0));

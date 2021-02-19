@@ -4,7 +4,8 @@ import dtos.MovieData;
 
 public class DataManager {
 
-    private DataManager(){}
+    private DataManager() {
+    }
 
     private static final ThreadLocal<MovieData> movieInformation = ThreadLocal.withInitial(MovieData::new);
 

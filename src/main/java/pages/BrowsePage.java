@@ -5,9 +5,10 @@ import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 import utils.SwipeHelper;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 public class BrowsePage extends BasePage {
@@ -37,9 +38,9 @@ public class BrowsePage extends BasePage {
         return browseSectionsList.stream().map(MobileElement::getText).collect(Collectors.toList());
     }
 
-    public List<String> resultList() {
-        Random random = new Random();
-        int indiceElement = random.nextInt(browseResultTitleList.size());
+    public List<String> resultList() throws NoSuchAlgorithmException {
+        int indiceElement = SecureRandom.getInstanceStrong().nextInt(browseResultTitleList.size());
+
         indiceElement = (indiceElement == 0 ? indiceElement + 1 : indiceElement);
         String resultSearch = "//android.view.ViewGroup[2]/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup[" + indiceElement + "]/android.view.ViewGroup";
         int count = 5;

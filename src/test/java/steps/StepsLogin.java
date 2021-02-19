@@ -26,7 +26,7 @@ public class StepsLogin {
     @Then("the system displays the {string} message")
     public void theSystemDisplaysTheMessage(String msg) {
         if (msg.equals("error")) {
-            Assert.assertTrue(ERROR_INPUTS_LOGIN.equals(loginPage.getMsgError()));
+            Assert.assertEquals(ERROR_INPUTS_LOGIN, loginPage.getMsgError());
         } else {
             BrowsePage browsePage = new BrowsePage();
             for (String text : browsePage.sections()) {

@@ -2,7 +2,8 @@ package dictionary;
 
 public class Constants {
 
-    private Constants(){}
+    private Constants() {
+    }
 
     public static final String LOGIN_BUTTON = "Login";
     public static final String SIGN_UP_BUTTON = "Sign Up";
