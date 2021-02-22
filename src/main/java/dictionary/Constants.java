@@ -16,5 +16,7 @@ public class Constants {
     public static final String TOPIC_POPULAR = "Popular";
     public static final String TOPIC_TOP_RATED = "Top Rated";
     public static final List<String> TOPICS = Arrays.asList("Trending_Daily_section", "Trending_Weekly_section", "Popular_section", "Top_Rated_section");
+    public static final String MY_WATCHLIST = "MyWatchlist";
+    public static final String MY_FAVORITE = "MyFavorite";
 
 }

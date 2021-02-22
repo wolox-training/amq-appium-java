@@ -64,11 +64,11 @@ public class BrowsePage extends BasePage {
     }
 
     public void selectMovieByTopic(String topicTitle, String topicElement) throws NoSuchAlgorithmException {
-        wait.untilElementIsVisible(timeOutSeconds,searchInput);
-        String element = String.format(horizontalTopic,topicElement);
+        wait.untilElementIsVisible(timeOutSeconds, searchInput);
+        String element = String.format(horizontalTopic, topicElement);
         List<MobileElement> listMovies = appiumDriver.findElementsByXPath(element);
-        int count=5;
-        while(listMovies.isEmpty()&&count>0){
+        int count = 5;
+        while (listMovies.isEmpty() && count > 0) {
             SwipeHelper.scrollIntoView(topicTitle);
             count--;
             listMovies = appiumDriver.findElementsByXPath(element);

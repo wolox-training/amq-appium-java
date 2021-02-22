@@ -26,6 +26,10 @@ public class MovieDataPage extends BasePage {
     @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"favButton\"]/android.widget.TextView[1]")
     private MobileElement favButton;
 
+    @iOSXCUITFindBy(xpath = "")
+    @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc=\"favButtonUnselected\"]/preceding::android.view.ViewGroup[1]")
+    private MobileElement unSaveButton;
+
     public String getTitleMovie() {
         return titleMovie.getText();
     }
@@ -38,12 +42,20 @@ public class MovieDataPage extends BasePage {
         return yearMovie.getText();
     }
 
-    public void clickFavoriteUnselected(){
+    public void clickFavoriteUnselected() {
         favButtonUnselected.click();
     }
 
-    public void clickFavoriteButton(){
+    public void clickFavoriteButton() {
         favButton.click();
+    }
+
+    public void clickUnSaveButton() {
+        unSaveButton.click();
+    }
+
+    public boolean isVisibleFavoriteButton() {
+        return elementIsDisplayed(favButton);
     }
 
 }

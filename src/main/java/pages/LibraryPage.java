@@ -10,8 +10,46 @@ public class LibraryPage extends BasePage {
     @AndroidFindBy(accessibility = "myFavorite")
     private MobileElement favoriteMenu;
 
-    public void clickFavorite(){
-        wait.untilElementIsVisible(timeOutSeconds,favoriteMenu);
+    @iOSXCUITFindBy(xpath = "")
+    @AndroidFindBy(accessibility = "myWatchlist")
+    private MobileElement watchlistMenu;
+
+    @iOSXCUITFindBy(xpath = "")
+    @AndroidFindBy(xpath = "//android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.widget.TextView[1]")
+    private MobileElement titleMovie;
+
+    @iOSXCUITFindBy(xpath = "")
+    @AndroidFindBy(xpath = "//android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.widget.TextView[2]")
+    private MobileElement scoreMovie;
+
+    @iOSXCUITFindBy(xpath = "")
+    @AndroidFindBy(xpath = "//android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.widget.TextView[3]")
+    private MobileElement yearMovie;
+
+    public String getTitleMovie() {
+        wait.untilElementIsVisible(timeOutSeconds, titleMovie);
+        return titleMovie.getText();
+    }
+
+    public void clickOnMovie() {
+        titleMovie.click();
+    }
+
+    public String getScoreMovie() {
+        return scoreMovie.getText();
+    }
+
+    public String getYearMovie() {
+        return yearMovie.getText();
+    }
+
+    public void clickFavorite() {
+        wait.untilElementIsVisible(timeOutSeconds, favoriteMenu);
         favoriteMenu.click();
+    }
+
+    public void clickWatchList() {
+        wait.untilElementIsVisible(timeOutSeconds, watchlistMenu);
+        watchlistMenu.click();
     }
 }
