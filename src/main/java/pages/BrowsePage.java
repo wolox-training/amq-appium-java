@@ -25,6 +25,7 @@ public class BrowsePage extends BasePage {
     @AndroidFindBy(xpath = "//android.view.ViewGroup[2]/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup")
     private List<MobileElement> browseResultTitleList;
 
+    private String horizontalTopic = "//android.view.ViewGroup[@content-desc='%s']/android.widget.HorizontalScrollView/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup";
 
     public boolean isVisibleSearchInput() {
         return elementIsDisplayed(searchInput);
@@ -62,4 +63,17 @@ public class BrowsePage extends BasePage {
         return infoMovie;
     }
 
+    public void selectMovieByTopic(String topicTitle, String topicElement) throws NoSuchAlgorithmException {
+        wait.untilElementIsVisible(timeOutSeconds,searchInput);
+        String element = String.format(horizontalTopic,topicElement);
+        List<MobileElement> listMovies = appiumDriver.findElementsByXPath(element);
+        int count=5;
+        while(listMovies.isEmpty()&&count>0){
+            SwipeHelper.scrollIntoView(topicTitle);
+            count--;
+            listMovies = appiumDriver.findElementsByXPath(element);
+        }
+        int indiceElement = SecureRandom.getInstanceStrong().nextInt(listMovies.size());
+        listMovies.get(indiceElement).click();
+    }
 }

@@ -12,14 +12,15 @@ import utils.DataManager;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
+import static dictionary.Constants.*;
+
 public class StepsBrowse {
 
-    private BrowsePage browsePage;
+    private BrowsePage browsePage = new BrowsePage();
     private MovieData movieData;
 
     @When("I am looking for a movie {string}")
     public void iAmLookingForAMovie(String movie) {
-        browsePage = new BrowsePage();
         browsePage.searchMovie(movie);
     }
 
@@ -38,5 +39,34 @@ public class StepsBrowse {
         Assert.assertEquals(movieData.getTitleMovie(), movieDataPage.getTitleMovie());
         Assert.assertEquals(movieData.getScoreMovie(), movieDataPage.getScoreMovie());
         Assert.assertEquals(movieData.getYearMovie(), movieDataPage.getYearMovie());
+    }
+
+    @When("I select a movie from the {string}")
+    public void iSelectAMovieFromThe(String topic) throws NoSuchAlgorithmException {
+        System.out.println("topico recibido " + topic);
+        switch (topic) {
+            case TOPIC_DAILY:
+                browsePage.selectMovieByTopic(topic, TOPICS.get(0));
+                break;
+            case TOPIC_WEEKLY:
+                browsePage.selectMovieByTopic(topic, TOPICS.get(1));
+                break;
+            case TOPIC_POPULAR:
+                browsePage.selectMovieByTopic(topic, TOPICS.get(2));
+                break;
+            case TOPIC_TOP_RATED:
+            default:
+                browsePage.selectMovieByTopic(topic, TOPICS.get(3));
+        }
+    }
+
+    @And("I click on favorite")
+    public void iClickOnFavorite() {
+        MovieDataPage movieDataPage = new MovieDataPage();
+        movieData = DataManager.getMovieInformation();
+        movieData.setTitleMovie(movieDataPage.getTitleMovie());
+        movieData.setScoreMovie(movieDataPage.getScoreMovie());
+        movieData.setYearMovie(movieDataPage.getYearMovie());
+        movieDataPage.clickFavoriteUnselected();
     }
 }
