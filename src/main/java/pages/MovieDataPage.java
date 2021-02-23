@@ -7,15 +7,15 @@ import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 public class MovieDataPage extends BasePage {
 
     @iOSXCUITFindBy(xpath = "")
-    @AndroidFindBy(xpath = "//android.view.ViewGroup[1]/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[3]/android.widget.ScrollView/android.view.ViewGroup/android.widget.TextView[1]")
+    @AndroidFindBy(xpath = "//android.view.ViewGroup[1]//android.widget.ScrollView/android.view.ViewGroup/android.widget.TextView[1]")
     private MobileElement titleMovie;
 
     @iOSXCUITFindBy(xpath = "")
-    @AndroidFindBy(xpath = "//android.view.ViewGroup[1]/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[3]/android.widget.ScrollView/android.view.ViewGroup/android.widget.TextView[2]")
+    @AndroidFindBy(xpath = "//android.view.ViewGroup[1]//android.widget.ScrollView/android.view.ViewGroup/android.widget.TextView[2]")
     private MobileElement scoreMovie;
 
     @iOSXCUITFindBy(xpath = "")
-    @AndroidFindBy(xpath = "//android.view.ViewGroup[1]/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[3]/android.widget.ScrollView/android.view.ViewGroup/android.widget.TextView[3]")
+    @AndroidFindBy(xpath = "//android.view.ViewGroup[1]//android.widget.ScrollView/android.view.ViewGroup/android.widget.TextView[3]")
     private MobileElement yearMovie;
 
     public String getTitleMovie() {

@@ -11,26 +11,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static dictionary.Constants.PLATFORM_ANDROID;
+import static dictionary.Constants.PLATFORM_NAME;
+
 public class BrowsePage extends BasePage {
 
-    @iOSXCUITFindBy(xpath = "")
+    @iOSXCUITFindBy(xpath = "//XCUIElementTypeOther[@name=\"search\"]")
     @AndroidFindBy(accessibility = "search")
     private MobileElement searchInput;
 
-    @iOSXCUITFindBy(xpath = "")
+    @iOSXCUITFindBy(xpath = "//XCUIElementTypeOther[@name=\"browseSectionsList\"]/XCUIElementTypeScrollView//XCUIElementTypeStaticText")
     @AndroidFindBy(xpath = "//android.widget.ScrollView[@content-desc=\"browseSectionsList\"]/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.widget.TextView")
     private List<MobileElement> browseSectionsList;
 
-    @iOSXCUITFindBy(xpath = "")
+    @iOSXCUITFindBy(xpath = "//XCUIElementTypeScrollView/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther")
     @AndroidFindBy(xpath = "//android.view.ViewGroup[2]/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup")
     private List<MobileElement> browseResultTitleList;
 
+    private String resultSearch = "//android.view.ViewGroup[2]/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup['%s']/android.view.ViewGroup";
 
-    public boolean isVisibleSearchInput() {
-        return elementIsDisplayed(searchInput);
-    }
 
     public void searchMovie(String movie) {
+        wait.untilElementIsVisible(timeOutSeconds, browseSectionsList.get(0));
         searchInput.sendKeys(movie);
     }
 
@@ -39,12 +41,20 @@ public class BrowsePage extends BasePage {
     }
 
     public List<String> resultList() throws NoSuchAlgorithmException {
-        int indiceElement = SecureRandom.getInstanceStrong().nextInt(browseResultTitleList.size());
+        if (dotenv.get(PLATFORM_NAME).equals(PLATFORM_ANDROID)) {
+            return resultListAndroid();
+        } else {
+            return resultListIOS();
+        }
+    }
 
-        indiceElement = (indiceElement == 0 ? indiceElement + 1 : indiceElement);
-        String resultSearch = "//android.view.ViewGroup[2]/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup[" + indiceElement + "]/android.view.ViewGroup";
+    private List<String> resultListAndroid() throws NoSuchAlgorithmException {
+        int indexElement = SecureRandom.getInstanceStrong().nextInt(browseResultTitleList.size());
+
+        indexElement = (indexElement == 0 ? indexElement + 1 : indexElement);
+        resultSearch = String.format(resultSearch, indexElement);
         int count = 5;
-        while (!(appiumDriver.findElementsByXPath(resultSearch.concat("/android.widget.TextView")).size() != 0) && count > 0) {
+        while (appiumDriver.findElementsByXPath(resultSearch.concat("/android.widget.TextView")).size() == 0 && count > 0) {
             SwipeHelper.scrollDown();
             count--;
         }
@@ -58,6 +68,18 @@ public class BrowsePage extends BasePage {
         infoMovie.add(year.getText());
 
         title.click();
+
+        return infoMovie;
+    }
+
+    private List<String> resultListIOS() {
+        for (MobileElement mobileElement : browseResultTitleList) {
+            System.out.println("item: " + mobileElement.getText());
+        }
+        List<String> infoMovie = new ArrayList<>();
+        infoMovie.add(browseResultTitleList.get(1).getText());
+        infoMovie.add(browseResultTitleList.get(2).getText());
+        infoMovie.add(browseResultTitleList.get(3).getText());
 
         return infoMovie;
     }

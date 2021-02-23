@@ -4,9 +4,9 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import org.junit.Assert;
 import pages.WelcomePage;
+import utils.MobileManagement;
 
-import static dictionary.Constants.LOGIN_BUTTON;
-import static dictionary.Constants.SIGN_UP_BUTTON;
+import static dictionary.Constants.*;
 
 public class StepsDefinition {
 
@@ -15,7 +15,7 @@ public class StepsDefinition {
     @Given("I am in the Movie Swiper app")
     public void iAmInTheMovieSwiperApp() {
         welcomePage = new WelcomePage();
-        Assert.assertTrue(welcomePage.isOpenApp());
+        Assert.assertTrue(MobileManagement.isInstalledApp());
     }
 
     @And("I click on the {string} button")
@@ -25,8 +25,10 @@ public class StepsDefinition {
                 welcomePage.clickLogin();
                 break;
             case SIGN_UP_BUTTON:
-            default:
                 welcomePage.clickSignUp();
+                break;
+            default:
+                Assert.fail(NOT_EXPECTED_OPTION);
         }
     }
 }

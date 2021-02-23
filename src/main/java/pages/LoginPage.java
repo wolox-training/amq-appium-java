@@ -4,29 +4,32 @@ import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 
+import static dictionary.Constants.ERROR_INPUTS_LOGIN;
+import static dictionary.Constants.LINK_FORGOT_PASS;
+
 public class LoginPage extends BasePage {
 
     public LoginPage() {
         super();
     }
 
-    @iOSXCUITFindBy(xpath = "")
+    @iOSXCUITFindBy(xpath = "//XCUIElementTypeTextField[@name=\"userInput\"]")
     @AndroidFindBy(accessibility = "userInput")
     private MobileElement userInput;
 
-    @iOSXCUITFindBy(xpath = "")
+    @iOSXCUITFindBy(xpath = "//XCUIElementTypeSecureTextField[@name=\"passwordInput\"]")
     @AndroidFindBy(accessibility = "passwordInput")
     private MobileElement passwordInput;
 
-    @iOSXCUITFindBy(xpath = "")
+    @iOSXCUITFindBy(accessibility = "logInButton")
     @AndroidFindBy(accessibility = "logInButton")
-    private MobileElement btnlogInButton;
+    private MobileElement logInButton;
 
-    @iOSXCUITFindBy(xpath = "")
-    @AndroidFindBy(xpath = "//android.widget.TextView[@text='Forgot the password?']")
+    @iOSXCUITFindBy(accessibility = LINK_FORGOT_PASS)
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text='" + LINK_FORGOT_PASS + "']")
     private MobileElement lnkForgotPassword;
 
-    @iOSXCUITFindBy(xpath = "")
+    @iOSXCUITFindBy(accessibility = ERROR_INPUTS_LOGIN)
     @AndroidFindBy(xpath = "//android.widget.EditText[@content-desc=\"passwordInput\"]/parent::android.view.ViewGroup/following-sibling::*[@class='android.widget.TextView']")
     private MobileElement errorInputCredentials;
 
@@ -36,15 +39,9 @@ public class LoginPage extends BasePage {
         passwordInput.sendKeys(pass);
     }
 
-    public void writeValidateCredentials() {
-        String user = dotenv.get("USERNAME");
-        String pass = dotenv.get("PASSWORD");
-        userInput.sendKeys(user);
-        passwordInput.sendKeys(pass);
-    }
-
     public void clickLogIn() {
-        btnlogInButton.click();
+        appiumDriver.hideKeyboard();
+        logInButton.click();
     }
 
     public String getMsgError() {

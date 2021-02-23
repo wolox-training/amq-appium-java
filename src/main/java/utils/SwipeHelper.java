@@ -6,6 +6,7 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.PointOption;
+import io.github.cdimascio.dotenv.Dotenv;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
@@ -16,11 +17,12 @@ import org.openqa.selenium.interactions.Sequence;
 import java.time.Duration;
 import java.util.HashMap;
 
+import static dictionary.Constants.SCROLL_DUR;
+
 public class SwipeHelper {
 
     private static Dimension windowSize;
-    private static int ANDROID_SCROLL_DIVISOR = 3;
-    private static Duration SCROLL_DUR = Duration.ofMillis(1000);
+    private static Dotenv dotenv = Dotenv.load();
 
     public static MobileElement androidHorizonalSwipe(String carousel, String option) {
         return MobileManagement.getDriver().findElement(MobileBy.AndroidUIAutomator(
@@ -104,13 +106,13 @@ public class SwipeHelper {
         int left = midPoint.x - (int) ((size.width * distance) * 0.5);
         int right = midPoint.x + (int) ((size.width * distance) * 0.5);
         if (dir == ScrollDirection.UP) {
-            swipe(new Point(midPoint.x, top), new Point(midPoint.x, bottom), SCROLL_DUR);
+            swipe(new Point(midPoint.x, top), new Point(midPoint.x, bottom), Duration.ofMillis(Integer.parseInt(dotenv.get(SCROLL_DUR))));
         } else if (dir == ScrollDirection.DOWN) {
-            swipe(new Point(midPoint.x, bottom), new Point(midPoint.x, top), SCROLL_DUR);
+            swipe(new Point(midPoint.x, bottom), new Point(midPoint.x, top), Duration.ofMillis(Integer.parseInt(dotenv.get(SCROLL_DUR))));
         } else if (dir == ScrollDirection.LEFT) {
-            swipe(new Point(left, midPoint.y), new Point(right, midPoint.y), SCROLL_DUR);
+            swipe(new Point(left, midPoint.y), new Point(right, midPoint.y), Duration.ofMillis(Integer.parseInt(dotenv.get(SCROLL_DUR))));
         } else {
-            swipe(new Point(right, midPoint.y), new Point(left, midPoint.y), SCROLL_DUR);
+            swipe(new Point(right, midPoint.y), new Point(left, midPoint.y), Duration.ofMillis(Integer.parseInt(dotenv.get(SCROLL_DUR))));
         }
     }
 
@@ -135,7 +137,7 @@ public class SwipeHelper {
         swipe.addAction(input.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), start.x, start.y));
         swipe.addAction(input.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
         if (isAndroid) {
-            duration = duration.dividedBy(ANDROID_SCROLL_DIVISOR);
+            duration = duration.dividedBy(Integer.parseInt(dotenv.get("ANDROID_SCROLL_DIVISOR")));
         } else {
             swipe.addAction(new Pause(input, duration));
             duration = Duration.ZERO;

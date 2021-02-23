@@ -35,11 +35,4 @@ public class StepsLogin {
         }
     }
 
-    @And("I authenticate the page")
-    public void iAuthenticateThePage() {
-        loginPage.writeValidateCredentials();
-        iClickTheLoginButton();
-    }
-
-
 }

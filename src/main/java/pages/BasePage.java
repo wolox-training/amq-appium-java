@@ -25,18 +25,4 @@ public class BasePage {
         PageFactory.initElements(new AppiumFieldDecorator(appiumDriver, Duration.ofSeconds(timeOutSeconds)), this);
     }
 
-    /**
-     * This method verifies if a webelement is displayed
-     *
-     * @param element
-     * @return
-     */
-    protected boolean elementIsDisplayed(MobileElement element) {
-        try {
-            return element.isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
 }

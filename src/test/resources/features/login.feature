@@ -7,7 +7,6 @@ Feature: Login verification
     And I click the login button
     Then the system displays the "<msg>" message
 
-
     Examples:
       | user     | password | msg   |
       | invalido | 1234567  | error |

@@ -13,6 +13,8 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import static dictionary.Constants.*;
+
 /**
  * Class in charge of the initialization and configuration of the webdriver
  */
@@ -33,7 +35,7 @@ public class MobileManagement {
     }
 
     /**
-     * Method that determines through the BROWSER environment variable the browser to use and its configuration
+     * Method that determines the platform_name to use and its configuration
      *
      * @return
      */
@@ -44,11 +46,11 @@ public class MobileManagement {
         String serverUrl = dotenv.get("SERVER_URL");
 
         try {
-            switch (dotenv.get("PLATFORM_NAME")) {
-                case "Android":
+            switch (dotenv.get(PLATFORM_NAME)) {
+                case PLATFORM_ANDROID:
                     driver = new AndroidDriver<MobileElement>(new URL(serverUrl), capabilities);
                     break;
-                case "iOS":
+                case PLATFORM_IOS:
                 default:
                     driver = new IOSDriver<MobileElement>(new URL(serverUrl), capabilities);
                     break;
@@ -64,7 +66,7 @@ public class MobileManagement {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 20);
         String[] capabilitiesFile;
-        if (dotenv.get("PLATFORM_NAME").equals("Android")) {
+        if (dotenv.get(PLATFORM_NAME).equals(PLATFORM_ANDROID)) {
             app = new File(dotenv.get("APK_NAME"));
             capabilitiesFile = dotenv.get("CAPABILITY").split(";");
         } else {
@@ -88,5 +90,9 @@ public class MobileManagement {
         getDriver().quit();
         server.stop();
         driver.remove();
+    }
+
+    public static boolean isInstalledApp() {
+        return MobileManagement.getDriver().isAppInstalled(dotenv.get("BUNDLE_ID"));
     }
 }
