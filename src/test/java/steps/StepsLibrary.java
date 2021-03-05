@@ -23,11 +23,12 @@ public class StepsLibrary {
         if (option.equals(MY_WATCHLIST)) {
             libraryPage.clickWatchList();
             validateMovieInformation();
+            removeMovieFromList();
         } else if (option.equals(MY_FAVORITE)) {
             libraryPage.clickFavorite();
             validateMovieInformation();
+            removeMovieFromList();
         }
-        removeMovieFromList();
     }
 
     public void validateMovieInformation() {
